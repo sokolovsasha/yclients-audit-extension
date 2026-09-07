@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Чек-лист аудита</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Roboto,system-ui,sans-serif;background:#f4f6fa;padding:30px 20px;display:flex;justify-content:center}
+.container{max-width:800px;width:100%;background:#fff;border-radius:20px;padding:30px 35px;box-shadow:0 8px 30px rgba(0,0,0,0.06);position:relative}
+h1{font-size:24px;font-weight:700;margin-bottom:6px;color:#0f172a;display:inline-block}
+.header-right{float:right;font-size:16px;font-weight:600;color:#2a8aa0;margin-top:8px;background:#e8f4f8;padding:4px 14px;border-radius:20px}
+.subhead{font-size:14px;color:#64748b;margin-bottom:25px;border-bottom:1px solid #e2e8f0;padding-bottom:16px;clear:both}
+.question-block{margin-bottom:22px}
+.question-block label{display:block;font-weight:600;font-size:15px;color:#1e293b;margin-bottom:5px}
+.question-block .hint{font-weight:400;font-size:13px;color:#64748b;margin-left:4px}
+.question-block textarea,.question-block input[type="text"],.question-block input[type="url"]{width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;font-family:inherit;background:#f8fafc;transition:0.2s;resize:vertical}
+.question-block textarea:focus,.question-block input:focus{border-color:#2563eb;outline:none;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,0.12)}
+.question-block textarea{min-height:60px}
+.modules-hint{font-size:13px;color:#64748b;margin-top:3px}
+.kryuchki{display:flex;flex-direction:column;gap:8px}
+.kryuchki .question-block{margin-bottom:0}
+.btn{background:#2a8aa0;color:#fff;border:none;padding:12px 30px;border-radius:40px;font-size:16px;font-weight:600;cursor:pointer;transition:0.15s;margin-top:10px;width:100%}
+.btn:hover{background:#1f6f82}
+.btn:active{transform:scale(0.97)}
+.result-box{margin-top:25px;background:#f1f5f9;border-radius:12px;padding:20px;display:none;border:1px solid #e2e8f0}
+.result-box h3{font-size:16px;font-weight:600;color:#0f172a;margin-bottom:10px}
+.result-box textarea{width:100%;min-height:300px;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-family:inherit;font-size:14px;background:#fff;resize:vertical;line-height:1.6}
+.checkbox-group{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-top:4px}
+.checkbox-group label{display:inline-flex;align-items:center;gap:5px;font-weight:400;font-size:14px;color:#1e293b;white-space:nowrap}
+.checkbox-group input[type="checkbox"]{width:16px;height:16px;accent-color:#2563eb;flex-shrink:0}
+.checkbox-group a{color:#2563eb;text-decoration:none;font-size:14px;margin-left:2px}
+.checkbox-group a:hover{text-decoration:underline}
+@media(max-width:600px){.checkbox-group{grid-template-columns:1fr}.container{padding:20px}.header-right{float:none;display:block;margin-top:12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Чек-лист аудита</h1>
+<span class="header-right" id="yclients-id-display">ID YCLIENTS: #<span id="id-value">—</span></span>
+<div class="subhead">Заполните поля, затем нажмите «Резюме» — сформируется текст для примечания в Amo.</div>
+
+<form id="auditForm">
+<div class="question-block">
+<label>1. Работает ли бизнес?</label>
+<input type="text" name="q1" placeholder="Напишите статус (да/нет, комментарий)">
+</div>
+
+<div class="question-block">
+<label>2. Кто ответственный за автоматизацию в филиале? Номер телефона совпадает с ЛПР?</label>
+<textarea name="q2" placeholder="ФИО, должность, контакт, совпадение с ЛПР"></textarea>
+</div>
+
+<div class="question-block">
+<label>3. С какими потребностями обращался клиент в компанию? О чем договорились? (резюме продаж)</label>
+<textarea name="q3" placeholder="Краткое резюме продаж"></textarea>
+</div>
+
+<div class="question-block">
+<label>4. Что устанавливали с отделом внедрения? О чем договорились, что и как настроили? (резюме внедрения)</label>
+<textarea name="q4" placeholder="Что настроено, какие договорённости"></textarea>
+</div>
+
+<div class="question-block">
+<label>5. С какими модулями работает клиент? Чем текущая работа отличается от той, к которой стремился клиент на старте?</label>
+<div class="checkbox-group">
+<label><input type="checkbox" name="mod_graph"> <a href="https://yclients.com/work_schedule/[ID]" target="_blank" data-yclients-link>График работы</a></label>
+<label><input type="checkbox" name="mod_jz"> <a href="https://yclients.com/timetable/[ID]#main_date=[today]&mode=1" target="_blank" data-yclients-link>ЖЗ</a></label>
+<label><input type="checkbox" name="mod_kb"> <a href="https://yclients.com/clients/[ID]/base?fields%5B0%5D=name&fields%5B1%5D=phone&fields%5B2%5D=email&fields%5B3%5D=sold_amount&fields%5B4%5D=visits_count&fields%5B5%5D=discount&fields%5B6%5D=last_visit_date&fields%5B7%5D=first_visit_date&fields%5B8%5D=tips_count&order_by=id&order_by_direction=desc&page=1&page_size=25&segment=&operation=AND&filters%5B0%5D%5Boperation%5D=OR&filters%5B0%5D%5Bfilters%5D%5B0%5D%5Boperation%5D=AND&filters%5B0%5D%5Bfilters%5D%5B0%5D%5Bfilters%5D%5B0%5D%5Boperation%5D=AND&filters%5B1%5D%5Btype%5D=quick_search&filters%5B1%5D%5Bstate%5D%5Bvalue%5D=" target="_blank" data-yclients-link>КБ</a></label>
+<label><input type="checkbox" name="mod_analitika"> <a href="https://yclients.com/analytics/report/[ID]" target="_blank" data-yclients-link>Аналитика</a> <a href="https://yclients.com/dashboard/export_report/[ID]" target="_blank" data-yclients-link>(Отчеты)</a></label>
+<label><input type="checkbox" name="mod_finansy"> <a href="https://yclients.com/finances/transactions/list/[ID]" target="_blank" data-yclients-link>Финансы</a></label>
+<label><input type="checkbox" name="mod_rzp"> <a href="https://yclients.com/salary_params/list/[ID]" target="_blank" data-yclients-link>РЗП</a></label>
+<label><input type="checkbox" name="mod_sklad"> <a href="https://yclients.com/goods/list/[ID]" target="_blank" data-yclients-link>Склад</a></label>
+<label><input type="checkbox" name="mod_loyal"> <a href="https://yclients.com/dashboard/[ID]" target="_blank" data-yclients-link title="Открой вручную Сеть - Лояльность - Типы карт">Лояльность</a></label>
+</div>
+<div class="modules-hint">Отметьте используемые модули. Ниже опишите отличия от целевого состояния.</div>
+<textarea name="q5_diff" style="margin-top:6px;" placeholder="В чём отличие текущей работы от желаемой?"></textarea>
+</div>
+
+<div class="question-block">
+<label>6. Ознакомиться с разделом «Лицензия – Управление сотрудниками». Посмотреть расписание текущих добавленных сотрудников (кого можно уволить из филиала – от этого зависит выбор тарифа)</label>
+<textarea name="q6" placeholder="Кого можно уволить, текущее расписание, влияние на тариф"></textarea>
+</div>
+
+<div class="question-block">
+<label>7. Просмотреть соц.сети, сайт, отзывы клиента. Как выглядит ОЗ клиента?</label>
+<input type="url" name="q7_site" placeholder="Ссылка на сайт">
+<input type="text" name="q7_social" placeholder="Соцсети (перечислить)" style="margin-top:6px;">
+<textarea name="q7_oz" style="margin-top:6px;" placeholder="Как выглядит онлайн-запись клиента?"></textarea>
+</div>
+
+<div class="question-block">
+<label>8. Какие были последние обращения в сопровождение, поддержку или финтех? Удалось ли закрыть?</label>
+<textarea name="q8" placeholder="Последние обращения, статус закрытия"></textarea>
+</div>
+
+<div class="question-block">
+<label>9. Формулируем 2-3 “крючка” (модули или интеграции, которыми клиент не пользуется или настроил с ошибками, но чтобы это подходило запросам клиента и целям)</label>
+<div class="kryuchki">
+<div class="question-block"><input type="text" name="k1" placeholder="Крючок 1"></div>
+<div class="question-block"><input type="text" name="k2" placeholder="Крючок 2"></div>
+<div class="question-block"><input type="text" name="k3" placeholder="Крючок 3"></div>
+</div>
+</div>
+
+<div class="question-block">
+<label>10. Проверить часовой пояс</label>
+<input type="text" name="q10" placeholder="Часовой пояс клиента">
+</div>
+
+<button type="button" class="btn" id="summaryBtn">Резюме</button>
+</form>
+
+<div class="result-box" id="resultBox">
+<h3>Примечание для сделки в AmoCrm</h3>
+<textarea id="resultText" readonly></textarea>
+</div>
+</div>
+
+<script src="audit.js"></script>
+</body>
+</html>
