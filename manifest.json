@@ -1,13 +1,23 @@
 {
   "manifest_version": 3,
   "name": "YCLIENTS Audit Helper",
-  "version": "1.5",
-  "description": "Открывает чек-лист аудита для сделки AMO CRM с подстановкой данных филиала",
-  "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["https://yclients.amocrm.ru/*"],
+  "version": "2.1",
+  "description": "Чек-лист аудита для AMO CRM + скрипты продаж и быстрые ссылки",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": [
+    "https://yclients.amocrm.ru/*",
+    "https://yclients.com/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://yclients.com/*"],
+      "js": ["content.js", "prank.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "action": {
     "default_title": "Открыть чек-лист аудита",
     "default_icon": "icon.png"
