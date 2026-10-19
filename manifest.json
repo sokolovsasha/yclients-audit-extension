@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YCLIENTS Audit Helper",
-  "version": "2.1",
+  "version": "2.3",
   "description": "Чек-лист аудита для AMO CRM + скрипты продаж и быстрые ссылки",
   "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": [
@@ -14,7 +14,7 @@
   "content_scripts": [
     {
       "matches": ["https://yclients.com/*"],
-      "js": ["content.js", "prank.js"],
+      "js": ["content.js"],
       "run_at": "document_idle"
     }
   ],

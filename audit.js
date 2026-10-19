@@ -24,6 +24,8 @@
 
   const tipsConnectedMasters = [];
 
+  const PHONE_RE = /^7\d{10}$/;
+
   function openTab(url, active = true) {
     if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
       chrome.tabs.create({ url, active });
@@ -96,9 +98,11 @@
 
     const tipsText = '🎯 Твоя цель в звонке: Подключить хотя бы одного мастера прямо сейчас. Чаевые для сотрудников не только помогают клиенту мотивировать команду, но и приносят тебе бонус за выполнение KPI по интеграциям!';
     const chatbotText = '🎯 Твоя цель в звонке: Передать контакт партнёру и вывести клиента на тестовый период Бьюти Бота. Подключение интеграции и старт тестового периода приносят тебе бонус за выполнение KPI по интеграциям!';
+    const tbankText = '🎯 Твоя цель в звонке: Не пытаться подключить эквайринг самому, а передать контакт клиента в финтех-отдел. Специалисты сделают всю работу, а ты получишь премию за успешно переданный лид!';
 
     const tipsBtn = document.querySelector('.sidebar-item[data-tab="tips"]');
     const chatbotBtn = document.querySelector('.sidebar-item[data-tab="chatbot"]');
+    const tbankBtn = document.querySelector('.sidebar-item[data-tab="tbank"]');
 
     function bind(btn, text) {
       if (!btn) return;
@@ -110,6 +114,7 @@
 
     bind(tipsBtn, tipsText);
     bind(chatbotBtn, chatbotText);
+    bind(tbankBtn, tbankText);
 
     window.addEventListener('scroll', hideTooltip, true);
   })();
@@ -120,6 +125,7 @@
     const panes = document.querySelectorAll('.tab-pane');
     const faqTips = document.getElementById('sidebarFaqTips');
     const faqChatbot = document.getElementById('sidebarFaqChatbot');
+    const faqTbank = document.getElementById('sidebarFaqTbank');
     if (!items.length || !panes.length) return;
 
     function activate(name) {
@@ -127,6 +133,7 @@
       panes.forEach((p) => p.classList.toggle('active', p.id === 'tab-' + name));
       if (faqTips) faqTips.hidden = name !== 'tips';
       if (faqChatbot) faqChatbot.hidden = name !== 'chatbot';
+      if (faqTbank) faqTbank.hidden = name !== 'tbank';
     }
 
     items.forEach((it) => {
@@ -146,6 +153,7 @@
 
     if (faqTips) faqTips.hidden = true;
     if (faqChatbot) faqChatbot.hidden = true;
+    if (faqTbank) faqTbank.hidden = true;
   })();
 
   if (yclientsId) {
@@ -175,14 +183,6 @@
         if (url) openTab(url, false);
       });
     });
-
-    const ekvLink = document.getElementById('tbankLink');
-    if (ekvLink) {
-      ekvLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        openTab('https://cdn.tbank.ru/static/documents/tbank-kp-torgovyy-ekvayring.pdf', true);
-      });
-    }
   }
 
   const faqLink = document.getElementById('faqLink');
@@ -299,21 +299,76 @@
   }
 
   const tipsMasterInput = document.getElementById('tipsMasterInput');
+  const tipsMasterPhone = document.getElementById('tipsMasterPhone');
   const tipsMasterAddBtn = document.getElementById('tipsMasterAddBtn');
   const tipsMasterFeedback = document.getElementById('tipsMasterFeedback');
+  const tipsCheckSmsBtn = document.getElementById('tipsCheckSmsBtn');
+
+  if (tipsMasterPhone) {
+    tipsMasterPhone.addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, '').slice(0, 11);
+    });
+  }
+
+  if (tipsCheckSmsBtn && tipsMasterPhone) {
+    tipsCheckSmsBtn.addEventListener('click', function () {
+      const phone = tipsMasterPhone.value.trim();
+      if (!PHONE_RE.test(phone)) {
+        alert('Введите корректный номер: первая цифра 7, всего 11 цифр, без пробелов.');
+        return;
+      }
+      if (!yclientsId) {
+        alert('ID YCLIENTS не найден — не удалось построить ссылку на SMS-журнал.');
+        return;
+      }
+      const url = `https://yclients.ru/supermod/sms/?start_date=01.01.2020&type=-1&status=0&phone=${phone}&salon_id=${yclientsId}`;
+      openTab(url, false);
+    });
+  }
 
   if (tipsMasterAddBtn && tipsMasterInput) {
     tipsMasterAddBtn.addEventListener('click', function () {
       const name = tipsMasterInput.value.trim();
-      if (!name) return;
+      const phone = tipsMasterPhone ? tipsMasterPhone.value.trim() : '';
 
-      tipsConnectedMasters.push(name);
-      tipsMasterInput.value = '';
+      if (!name) {
+        alert('Введите имя мастера.');
+        tipsMasterInput.focus();
+        return;
+      }
+      if (!PHONE_RE.test(phone)) {
+        alert('Введите корректный телефон мастера: первая цифра 7, всего 11 цифр, без пробелов.');
+        if (tipsMasterPhone) tipsMasterPhone.focus();
+        return;
+      }
+
+      tipsConnectedMasters.push({ name, phone });
+
+      const newLine = `Чаевые подключили в звонке для: ${name}, телефон: ${phone}`;
+
+      if (resultText) {
+        if (!resultText.value.trim()) {
+          try {
+            resultText.value = buildSummary();
+          } catch (err) {
+            console.error('Ошибка при формировании резюме:', err);
+            alert('Ошибка при формировании резюме: ' + err.message);
+            return;
+          }
+        } else {
+          resultText.value = resultText.value.replace(/\s+$/, '') + '\n' + newLine;
+        }
+        resultBox.style.display = 'block';
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
 
       if (tipsMasterFeedback) {
-        tipsMasterFeedback.textContent = '✓ Добавлено в резюме: Чаевые подключили в звонке для: ' + name;
+        tipsMasterFeedback.textContent = `✓ Добавлено в резюме: ${name}, ${phone}`;
         tipsMasterFeedback.style.display = 'block';
       }
+
+      tipsMasterInput.value = '';
+      if (tipsMasterPhone) tipsMasterPhone.value = '';
     });
 
     tipsMasterInput.addEventListener('keydown', function (e) {
@@ -336,7 +391,6 @@
   const reqResultText = document.getElementById('reqResultText');
   const reqCopyBtn = document.getElementById('reqCopyBtn');
 
-  // Автоформат даты ДД.ММ.ГГГГ
   if (reqDate) {
     reqDate.addEventListener('input', function () {
       let v = this.value.replace(/\D/g, '').slice(0, 8);
@@ -347,7 +401,6 @@
     });
   }
 
-  // Автоформат времени ЧЧ:ММ
   if (reqTime) {
     reqTime.addEventListener('input', function () {
       let v = this.value.replace(/\D/g, '').slice(0, 4);
@@ -531,8 +584,8 @@
       tips ? 'Чаевые подключены.' : 'безналичные чаевые не используют.'
     ];
 
-    tipsConnectedMasters.forEach((name) => {
-      lines.push(`Чаевые подключили в звонке для: ${name}`);
+    tipsConnectedMasters.forEach(({ name, phone }) => {
+      lines.push(`Чаевые подключили в звонке для: ${name}, телефон: ${phone}`);
     });
 
     return lines;

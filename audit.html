@@ -477,7 +477,7 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
 }
 
 /* =========================================================
-   СКРИПТЫ ПРОДАЖИ (Чаевые + Бьюти Бот)
+   СКРИПТЫ ПРОДАЖИ (Чаевые + Бьюти Бот + Т-Банк)
    ========================================================= */
 .script-content{overflow:hidden}
 
@@ -731,6 +731,46 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
   font-weight:500;
 }
 
+/* ---------- Ряд «Телефон + Проверить отправку» ---------- */
+.script-content .tips-sms-row{
+  display:flex;
+  gap:12px;
+  margin:16px 0 0;
+  flex-wrap:wrap;
+}
+.script-content .tips-sms-row input[type="tel"]{
+  flex:1 1 280px;
+  min-width:0;
+  padding:10px 14px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  font-size:15px;
+  font-family:inherit;
+  background:#f8fafc;
+  transition:0.2s;
+}
+.script-content .tips-sms-row input[type="tel"]:focus{
+  border-color:#2563eb;
+  outline:none;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.12);
+}
+.script-content .tips-sms-row button{
+  padding:10px 22px;
+  border:none;
+  border-radius:8px;
+  background:#f59e0b;
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  font-family:inherit;
+  cursor:pointer;
+  transition:0.15s;
+  white-space:nowrap;
+}
+.script-content .tips-sms-row button:hover{background:#d97706}
+.script-content .tips-sms-row button:active{transform:scale(0.97)}
+
 /* ---------- Новая форма заявки ---------- */
 .request-form-wrap {
   margin-top: 40px;
@@ -879,7 +919,7 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
 
     <!-- FAQ для вкладки «Бьюти Бот» -->
     <div class="sidebar-faq" id="sidebarFaqChatbot" hidden>
-      <h3>💡 FAQ по Бьюти Бот</h3>
+      <h3>💡 FAQ</h3>
       <ul>
         <li><strong>Тест:</strong> 4 дня бесплатно.</li>
         <li><strong>Оплата:</strong> Тарифы обсуждаются с партнёром; Нейроадмин тарифицируется пакетами ответов.</li>
@@ -893,6 +933,18 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
       <div class="sidebar-faq-links">
         <a href="https://wiki.yandex.ru/commercial-department/otdelposoprovozhdenijuklientov/reglament-prodazhi-i-peredachi-platnyx-integracijj/podkljuchenie-chat-botov/" target="_blank" rel="noopener">Подключение Бьюти Бот</a>
       </div>
+    </div>
+
+    <!-- FAQ для вкладки «Эквайринг от Т-Банка» -->
+    <div class="sidebar-faq" id="sidebarFaqTbank" hidden>
+      <h3>💡 FAQ</h3>
+      <ul>
+        <li><strong>Бонус для клиентов YCLIENTS:</strong> При подключении торгового эквайринга действует специальное предложение — бонус до 10 000 ₽ на продление лицензии YCLIENTS.</li>
+        <li><strong>Стоимость:</strong> Комиссия за приём платежей зависит от способа оплаты. Для карт — от 1,2%, для оплаты по QR-коду (СБП) — от 0,4%.</li>
+        <li><strong>Оборудование:</strong> Терминалы и кассы предоставляются в аренду за 0 ₽. Для работы потребуется только приобрести фискальный накопитель и зарегистрировать кассу.</li>
+        <li><strong>Совместимость:</strong> Терминалы Т-Банка полностью совместимы с популярным кассовым ПО, включая YCLIENTS, МойСклад и 1С.</li>
+        <li><strong>Зачисление средств:</strong> Деньги поступают на счёт на следующий день после оплаты.</li>
+      </ul>
     </div>
   </aside>
 
@@ -958,7 +1010,7 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
                   <img class="pitch-icon" src="https://assets.yclients.com/marketplace/2/2e/2e09e305a558c90_20240927153204.png" alt="">
                   <label class="pitch-check"><input type="checkbox" name="pitch_tbank"> Т-Банк подключен?</label>
                 </div>
-                <a class="pitch-link" id="tbankLink" href="#" target="_blank" rel="noopener">Подскажите, а каким эквайрингом вы сейчас пользуетесь для приёма оплат? Просто у Т-Банка сейчас есть спецусловия для клиентов YCLIENTS — и бонус до 10 000 ₽ на продление лицензии. Плюс это удобно для онлайн-продажи сертификатов. Интересно узнать подробнее?»</a>
+                <a class="pitch-link" id="tbankLink" href="#tab-tbank" data-tab-link="tbank">— Подскажите, а каким эквайрингом вы сейчас пользуетесь для приёма оплат? Просто у Т-Банка сейчас есть спецусловия для клиентов YCLIENTS — и бонус до 10 000 ₽ на продление лицензии. Интересно узнать подробнее?</a>
               </div>
 
               <div class="pitch-col">
@@ -966,7 +1018,7 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
                   <img class="pitch-icon" src="https://assets.yclients.com/marketplace/e/ea/ea5782a1a8614b7_20260601111619.png" alt="">
                   <label class="pitch-check"><input type="checkbox" name="pitch_chatbot"> Чат-бот подключен?</label>
                 </div>
-                <a class="pitch-link" id="chatbotLink" href="#tab-chatbot" data-tab-link="chatbot">[Имя], а вы не пробовали подключить чат-бота для подтверждения записей? Он снимает с админа часть рутины и снижает неявки. Давайте расскажу на примере вашей компании, как это будет работать?</a>
+                <a class="pitch-link" id="chatbotLink" href="#tab-chatbot" data-tab-link="chatbot">— [Имя], а вы не пробовали подключить чат-бота для подтверждения записей? Он снимает с админа часть рутины и снижает неявки. Давайте расскажу на примере вашей компании, как это будет работать?</a>
               </div>
 
               <div class="pitch-col">
@@ -974,7 +1026,7 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
                   <img class="pitch-icon" src="https://assets.yclients.com/marketplace/3/3f/3f570ae4cf66813_20220824133333.png" alt="">
                   <label class="pitch-check"><input type="checkbox" name="pitch_tips"> Чаевые подключены?</label>
                 </div>
-                <a class="pitch-link" id="tipsLink" href="#tab-tips" data-tab-link="tips">«[Имя], хочу вас спросить, а как у вас сейчас обстоят дела с чаевыми? Мастера получают их наличными или клиенты как-то переводят на карту?»</a>
+                <a class="pitch-link" id="tipsLink" href="#tab-tips" data-tab-link="tips">— [Имя], хочу вас спросить, а как у вас сейчас обстоят дела с чаевыми? Мастера получают их наличными или клиенты как-то переводят на карту?</a>
               </div>
             </div>
           </div>
@@ -1025,7 +1077,7 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
               <label class="q7-checkbox"><input type="checkbox" name="q7_2gis_widget"> Есть кнопка ОЗ на 2ГИС</label>
             </div>
 
-            <textarea name="q7_oz" style="margin-top:8px;" placeholder="Как выглядит онлайн-запись клиента?"></textarea>
+            <textarea name="q7_oz" style="margin-top:8px;" placeholder="Комментарий, если что-то не так с онлайн записью"></textarea>
           </div>
 
           <div class="question-block">
@@ -1068,10 +1120,61 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
       </div>
     </section>
 
+    <!-- РАЗДЕЛ «ЭКВАЙРИНГ ОТ Т-БАНКА» -->
     <section id="tab-tbank" class="tab-pane">
-      <div class="container">
-        <h2 class="section-title">Эквайринг от Т-Банка</h2>
-        <p class="section-hint">Содержимое раздела будет добавлено.</p>
+      <div class="container script-content">
+        <h1>Эквайринг от Т-Банка</h1>
+
+        <div class="manager-says manager-says--standalone">
+          Подскажите, а каким эквайрингом вы сейчас пользуетесь для приёма оплат? Просто у Т-Банка сейчас есть спецусловия для клиентов YCLIENTS — и бонус до 10 000 ₽ на продление лицензии. Интересно узнать подробнее?
+        </div>
+
+        <div class="columns">
+          <div class="col col-green">
+            <div class="client-says">Да, интересно / А что за условия?</div>
+            <div class="manager-says">
+              Смотрите, у Т-Банка сейчас очень выгодные условия для приёма платежей, и главное — это отлично работает в связке с YCLIENTS. Вы сможете принимать оплату от клиентов с минимальной комиссией и удобным зачислением средств.
+              <br><br>
+              Плюс, как я уже сказал, при подключении действует бонус — до 10 000 ₽ на продление вашей лицензии YCLIENTS. По сути, часть расходов на систему вам компенсируют.
+              <br><br>
+              Скажите, а вам сейчас важнее снизить процент за приём платежей или получить бонус на продление лицензии?
+            </div>
+          </div>
+
+          <div class="col col-red">
+            <div class="client-says">У нас уже есть эквайринг, нас всё устраивает</div>
+            <div class="manager-says">
+              Понимаю, если вы уже работаете с кем-то, это нормально. Но часто клиенты не знают, что у Т-Банка есть более выгодные тарифы или условия по зачислению средств.
+              <br><br>
+              Я сам не занимаюсь подключением эквайринга — этим у нас занимается отдельный финтех-отдел. Они эксперты именно в этом вопросе. Они могут просто посмотреть ваши текущие условия и показать, где вы можете сэкономить или получить бонус. Вам это будет полезно, даже если вы останетесь на своём банке.
+              <br><br>
+              Как вам кажется, стоит посмотреть на альтернативу, чтобы хотя бы знать, есть ли выгода?
+            </div>
+          </div>
+        </div>
+
+        <h2 class="h2-plain"><span class="stage-num">1</span> Передача лида в финтех (главная цель)</h2>
+        <div class="section-subhead">Задача: снять с себя ответственность за технические детали, передать контакт специалисту и зафиксировать удобное время звонка.</div>
+
+        <div class="manager-says manager-says--standalone">
+          Давайте я вас не буду утомлять техническими деталями, потому что я в них не самый большой эксперт. Наш специалист из финтех-отдела свяжется с вами, расскажет про все условия Т-Банка, проверит, как это будет работать именно с вашим салоном, и поможет с бонусом на продление.
+          <br><br>
+          Вас это ни к чему не обязывает — это просто бесплатная консультация. Если условия вам не подойдут, вы просто откажетесь. Но если подойдут — получите выгоду и бонус.
+        </div>
+
+        <div class="manager-says manager-says--standalone">
+          Давайте я передам ваш контакт специалисту. Когда вам будет удобнее принять звонок, чтобы он вас не отвлекал?
+        </div>
+
+        <h2 class="h2-plain"><span class="stage-num">2</span> Отработка возражения «Некогда / Пришлите на почту»</h2>
+        <div class="section-subhead">Задача: удержать клиента от отговорки «пришлите на почту» и получить слот на голосовой звонок.</div>
+
+        <div class="dialogue">
+          <div class="client-says">Да некогда, пришлите лучше на почту.</div>
+          <div class="manager-says">
+            [Имя], я бы с радостью, но условия и расчёт выгоды зависят от вашего текущего оборота и специфики. Специалист за 10 минут голосом объяснит всё быстрее, чем вы будете читать письмо. Вас это ни к чему не обязывает, просто послушаете условия. В какой день вам удобнее?
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1129,13 +1232,13 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
             Меньше потерь клиентов: бот фиксирует пропущенные звонки и автоматически ставит задачу админу «Перезвонить», со скриптом и историей визитов. Никто не забывается.
           </div>
           <div class="manager-says">
-            Разгрузка админов: они перестают тонуть в рутине с напоминаниями и звонками и подтверждениями визитов на завтра, и больше времени уделяют клиентам, которые уже пришли в салон.
+            Разгрузка админов: они перестают тонуть в рутине с напоминаниями и звонками и подтверждениями визитов на завтра, и больше времени уделяют клиентам, которые уже пришли к вам.
           </div>
           <div class="manager-says">
             Автоматический возврат «потеряшек»: бот находит в базе тех, кто давно не приходил, и приглашает их на повторный визит к их мастеру. Вы получаете дополнительную выручку без участия администратора».
           </div>
           <div class="manager-says">
-            Как думаете, насколько это помогло бы разгрузить вас лично и вашу команду и вернуть тех клиентов, которые у вас сейчас «спят»?
+            Как думаете, насколько это помогло бы разгрузить вас лично и вашу команду, и вернуть тех клиентов, которые у вас сейчас «спят»?
           </div>
         </div>
 
@@ -1153,14 +1256,14 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
             <div class="client-says">Да некогда мне, пусть потом как-нибудь…</div>
             <div class="manager-says">
               [Имя], именно поэтому я и предлагаю вам короткий звонок. Партнёр позвонит ровно в удобное для вас время, проведёт презентацию на 10–15 минут и просто запустит вам 4 дня бесплатного тестового периода.<br><br>
-              Вам не нужно ни в чём прямо сейчас разбираться и к чему-то обязываться. Это просто бесплатная консультация. Вы посмотрите на практике, как это снимает рутину с админов. А если решите подключиться после теста, как наш клиент получите ещё один месяц в подарок при оплате на любой срок. Подскажите, в какой день и время вам было бы удобнее принять звонок партнёра?
+              Вам не нужно прямо сейчас в чём-то разбираться, и вас это ни к чему не обязывает. Это просто бесплатная консультация. Вы посмотрите на практике, как это снимает рутину с админов. А если решите подключиться после теста, как наш клиент получите ещё один месяц в подарок при оплате на любой срок. Подскажите, в какой день и время вам было бы удобнее принять звонок партнёра?
             </div>
           </div>
           
           <div class="objection-col">
             <div class="client-says">Нам дорого / мы не готовы платить.</div>
             <div class="manager-says">
-              Понимаю вас. Именно поэтому партнёр сначала даёт 4 дня полностью бесплатного тестового периода. Вы сейчас ничего не платите и ни к чему не обязываетесь.<br><br>
+              Понимаю вас. Именно поэтому партнёр сначала даёт 4 дня полностью бесплатного тестового периода. Вы сейчас ничего не платите, и вас это ни к чему не обязывает.<br><br>
               За эти 4 дня вы на практике увидите, что бот корректно работает в разных ситуациях, и окупится буквально с одной вовремя отмеченной неявки или одного клиента, который записался ночью. А если поймёте, что сервис подходит и решите подключиться, то как наш клиент получите целый месяц в подарок при оплате на 1, 3, 6 или 12 месяцев.<br><br>
               По сути, вам нужно просто посмотреть на это вживую. Давайте я передам ваш контакт партнёру — когда вам удобно созвониться?
             </div>
@@ -1293,7 +1396,7 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
             </div>
             <div class="step-arrow">↓</div>
             <div class="step-item">
-              <div class="step-text">Нажмите кнопку <a href="https://yclients.ru/dashboard_message/[ID]?start_date=01.01.2000" target="_blank" rel="noopener" data-yclients-link>«Отправить ссылку по SMS»</a>.</div>
+              <div class="step-text">Нажмите кнопку «Отправить ссылку по SMS».</div>
               <input type="checkbox" class="step-checkbox">
             </div>
           </div>
@@ -1301,6 +1404,11 @@ h1{font-size:28px;font-weight:700;color:#0f172a;margin-bottom:8px;text-align:cen
 
         <div class="manager-says manager-says--standalone">
           Всё готово! Сейчас ему на телефон придет ссылка. Как только он по ней перейдет и привяжет свою банковскую карту — у него сразу появится свой персональный QR-код для чаевых.
+        </div>
+
+        <div class="tips-sms-row">
+          <input type="tel" id="tipsMasterPhone" placeholder="Номер сотрудника без пробелов, первая 7" maxlength="11" inputmode="numeric" autocomplete="off">
+          <button type="button" id="tipsCheckSmsBtn">Проверить отправку сообщения</button>
         </div>
 
         <div class="tips-master-row">
